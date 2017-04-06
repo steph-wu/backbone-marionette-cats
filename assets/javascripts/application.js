@@ -85,6 +85,10 @@ AngryCatView = Backbone.Marionette.ItemView.extend({
       'click .rank_down img': 'rankDown'
     },
 
+    initialize: function(){
+      this.listenTo(this.model, "change:votes", this.render);
+    },
+
     rankUp: function(){
       this.model.addVote();
       MyApp.trigger('rank:up', this.model);
