@@ -52,6 +52,17 @@ AngryCats = Backbone.Collection.extend({
         self.sort();
         self.trigger('reset');
       });
+
+      MyApp.on('cat:disqualify', function(cat){
+        var disqualifiedRank = cat.get('rank');
+        var catsToUpRank = self.filter(
+          function(cat){
+            return cat.get('rank') > disqualifiedRank;
+          });
+        catsToUpRank.forEach(function(cat){
+          cat.rankUp();
+        });
+      });
     },
 
     comparator: function(cat){
@@ -82,13 +93,19 @@ AngryCatView = Backbone.Marionette.ItemView.extend({
     // Event listeners
     events: {
       'click .rank_up img': 'rankUp',
-      'click .rank_down img': 'rankDown'
+      'click .rank_down img': 'rankDown',
+      'click a.disqualify': 'disqualify'
     },
 
     initialize: function(){
       this.listenTo(this.model, "change:votes", this.render);
     },
 
+    disqualify: function(){
+      MyApp.trigger('cat:disqualify', this.model);
+      this.model.destroy();
+    },
+    
     rankUp: function(){
       this.model.addVote();
       MyApp.trigger('rank:up', this.model);
