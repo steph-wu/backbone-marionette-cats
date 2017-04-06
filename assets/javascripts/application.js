@@ -1,35 +1,54 @@
+// Initialize app and define region
 MyApp = new Backbone.Marionette.Application();
 
 MyApp.addRegions({
-  mainRegion: '#content'
+    mainRegion: "#content"
 });
 
+// Create model and collection
 AngryCat = Backbone.Model.extend({});
 
 AngryCats = Backbone.Collection.extend({
-  model: AngryCat
+    model: AngryCat
 });
 
-// Creates view that renders an element into the template #angry_cat-template
-AngryCatVew = Backbone.Marionette.ItemView.extend({
-  template: '#angry_cat-template', // jQuery selector
-  tagName: 'tr', // Backbone creates a div by default
-  className: 'angry_cat' // adds a class attribute to the DOM element created
+// Create item view that renders a DOM element
+AngryCatView = Backbone.Marionette.ItemView.extend({
+    template: "#angry_cat-template",
+    tagName: 'tr',
+    className: 'angry_cat'
 });
 
-// Creates a view that renders a Collection
+// Create collection view
 AngryCatsView = Backbone.Marionette.CompositeView.extend({
-  tagName: 'table',
-  id: 'angry_cat',
-  className: 'table-striped table-bordered',
-  template: 'angry_cats-template',
+  tagName: "table",
+  id: "angry_cats",
+  className: "table-striped table-bordered",
+  template: "#angry_cats-template",
   itemView: AngryCatView,
 
-  initialize: function(){
-    this.listenTo(this.collection, 'sort', this.renderCollection);
-  },
-
-  appendHTML: function(collectionView, itemView){
-    collectionView.$('tbody').append(itemView.el);
+  appendHtml: function(collectionView, itemView){
+    collectionView.$("tbody").append(itemView.el);
   }
+});
+
+// Create a collection of AngryCats populated by AngryCat models when document is ready
+$(document).ready(function() {
+  var cats = new AngryCats([
+    new AngryCat({ name: 'Wet Cat' }),
+    new AngryCat({ name: 'Bitey Cat' }),
+    new AngryCat({ name: 'Surprised Cat' })
+  ]);
+
+  MyApp.start({
+    cats: cats
+  });
+});
+
+// Initiailize app
+MyApp.addInitializer(function(options) {
+  var angryCatsView = new AngryCatsView({
+    collection: options.cats
+  });
+  MyApp.mainRegion.show(angryCatsView);
 });
