@@ -6,13 +6,17 @@ MyApp.addRegions({
 });
 
 // Create model and collection
-AngryCat = Backbone.Model.extend({});
+AngryCat = Backbone.Model.extend({
+  defaults: {
+    rank: 0
+  }
+});
 
 AngryCats = Backbone.Collection.extend({
     model: AngryCat
 });
 
-// Create item view that renders a DOM element
+// Create item view that renders a DOM element (tr, table row) for each item
 AngryCatView = Backbone.Marionette.ItemView.extend({
     template: "#angry_cat-template",
     tagName: 'tr',
