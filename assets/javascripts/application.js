@@ -23,7 +23,21 @@ AngryCats = Backbone.Collection.extend({
 AngryCatView = Backbone.Marionette.ItemView.extend({
     template: "#angry_cat-template",
     tagName: 'tr',
-    className: 'angry_cat'
+    className: 'angry_cat',
+
+    // Event listeners
+    events: {
+      'click .rank_up img': 'rankUp',
+      'click .rank_down img': 'rankDown'
+    },
+
+    rankUp: function(){
+      console.log('Rank up!');
+    },
+
+    rankDown: function(){
+      console.log('Rank down!');
+    }
 });
 
 // Create collection view
