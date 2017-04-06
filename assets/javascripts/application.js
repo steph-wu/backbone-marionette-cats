@@ -35,9 +35,18 @@ AngryCatsView = Backbone.Marionette.CompositeView.extend({
 // Create a collection of AngryCats populated by AngryCat models when document is ready
 $(document).ready(function() {
   var cats = new AngryCats([
-    new AngryCat({ name: 'Wet Cat' }),
-    new AngryCat({ name: 'Bitey Cat' }),
-    new AngryCat({ name: 'Surprised Cat' })
+    new AngryCat({
+      name: 'Wet Cat',
+      image_path: 'assets/images/cat2.jpg'
+    }),
+    new AngryCat({
+      name: 'Bitey Cat',
+      image_path: 'assets/images/cat1.jpg'
+    }),
+    new AngryCat({
+      name: 'Surprised Cat',
+      image_path: 'assets/images/cat3.jpg'
+    })
   ]);
 
   MyApp.start({
